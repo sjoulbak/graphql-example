@@ -6,6 +6,7 @@ import {
   ApolloTestingController,
 } from 'apollo-angular/testing';
 import { ApolloModule } from 'apollo-angular';
+import { UserResultDocument } from 'src/generated/graphql';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -35,5 +36,21 @@ describe('AppComponent', () => {
 
   it('should create the app', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display the users email', (done) => {
+    component.user.subscribe(result => {
+      expect(result.data.userResult.email).toEqual('hi@test.test');
+      done();
+    });
+
+    apollo.expectOne(UserResultDocument).flush({
+      data: {
+        userResult: {
+          email: 'hi@test.test',
+          friends: []
+        }
+      }
+    });
   });
 });
