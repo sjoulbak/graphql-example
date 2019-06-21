@@ -1,0 +1,8 @@
+query userResult($id: ID!) {
+  userResult(id: $id) {
+    email
+    friends {
+      email
+    }
+  }
+}
